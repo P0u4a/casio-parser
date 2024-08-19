@@ -28,17 +28,16 @@ pub fn tokeniser(code: &str) -> (&'static str, Vec<String>) {
     let watch_type = sections[0];
 
     if watch_type.contains("G") {
-        return ("G-Shock", tokenise_gshock(sections));
+        return ("gshock", tokenise_gshock(sections));
     }
 
-    return ("Timepiece", tokenenise_timepiece(sections));
+    return ("timepiece", tokenenise_timepiece(sections));
 }
 
 fn tokenenise_timepiece(sections: Vec<&str>) -> Vec<String> {
     let category_code = sections[0];
 
     let series_and_band_code = sections[1];
-    println!("{}", series_and_band_code);
 
     let mut series: String = String::new();
     let mut checkpoint = 0;

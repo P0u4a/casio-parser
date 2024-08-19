@@ -1,4 +1,4 @@
-use phf::phf_map;
+use ::phf::phf_map;
 
 /*
 * G-Shock Mappings
@@ -7,18 +7,18 @@ use phf::phf_map;
 pub static TYPE_CODE: phf::Map<&'static str, &'static str> = phf_map! {
 "AW" => "Analogue Water Resistant",
 "AWG" => "Analogue Water Resistant",
-"DW " => "Digital Water Resistant",
+"DW" => "Digital Water Resistant",
 "DWG"=> "Digital Water Resistant",
 "DWM" => "Digital Water Resistant",
 "DWX" => "Digital Water Resistant",
 "G" => "G-Shock",
-"GA "=> "G-Shock Analogue",
+"GA"=> "G-Shock Analogue",
 "GAS"=> "G-Shock Analogue",
 "GAW"=> "G-Shock Analog Waveceptor",
 "GD" => "G-Shock Digital",
 "GDF" => "G-Shock Digital",
 "GG" => "G-Shock Digital",
-"GL "=> "Glide",
+"GL"=> "Glide",
 "GSL" => "Glide",
 "GAX"=> "Glide",
 "GLX" => "Glide Xtreme",
@@ -26,7 +26,7 @@ pub static TYPE_CODE: phf::Map<&'static str, &'static str> = phf_map! {
 "GRX" => "G-Shock Ride Xtreme",
 "GS"=> "GIEZ",
 "GSG"=> "GST",
-"GW "=> "G-Shock Waveceptor",
+"GW"=> "G-Shock Waveceptor",
 "GWN" => "G-Shock Waveceptor Nautic",
 "GX" => "G-Shock Xtreme",
 "GXW" => "G-Shock Xtreme Waveceptor",
@@ -44,7 +44,7 @@ pub static SERIES_PREFIX_CODE: phf::Map<&'static str, &'static str> = phf_map! {
     "Q" => "Quad Sensor",
     "S" => "Small",
     "T" => "Titanium",
-    "X" => "X-large"
+    "X" => "X-large",
 };
 
 pub static SERIES_SUFFIX_CODE: phf::Map<&'static str, &'static str> = phf_map! {
@@ -52,6 +52,7 @@ pub static SERIES_SUFFIX_CODE: phf::Map<&'static str, &'static str> = phf_map! {
     "BBM" => "Black Blue Matte",
     "BK" => "Real Black",
     "BY" => "Burning Sun",
+    "C" => "Classic",
     "CS" => "Crazy Colors",
     "CR" => "Coral Reef",
     "D" => "Stainless steel bracelet",
@@ -87,13 +88,13 @@ pub static SERIES_SUFFIX_CODE: phf::Map<&'static str, &'static str> = phf_map! {
     "WCCS" => "World Coral Reef Conservation Society",
 };
 
-pub enum Order {
-    A,
-    B,
-    C,
-    D,
-    E,
-}
+pub static ORDER_CODE: phf::Map<&'static str, &'static str> = phf_map! {
+    "A" => "1st Wave",
+    "B" => "2nd Wave",
+    "C" => "3rd Wave",
+    "D" => "4th Wave",
+    "E" => "5th Wave",
+};
 
 pub static COUNTRY_CODE: phf::Map<&'static str, &'static str> = phf_map! {
     "CR" => "North / South America",
