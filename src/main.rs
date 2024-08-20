@@ -1,5 +1,6 @@
 mod mappings;
 mod parser;
+use parser::parser::WatchRecordTrait;
 use std::env;
 
 fn main() {
@@ -11,10 +12,7 @@ fn main() {
 
     let (watch_type, tokens) = parser::tokensier::tokeniser(&args[1]);
 
-    let model_info = parser::parser::parse_record(&watch_type, tokens);
-    if let Some(value) = model_info {
-        println!("{:?}", value);
-    } else {
-        eprintln!("Error parsing watch code");
+    if let Some(model_info) = parser::parser::parse_record(&watch_type, tokens) {
+        model_info.pretty_print();
     }
 }

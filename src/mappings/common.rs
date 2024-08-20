@@ -1,7 +1,7 @@
 use phf::phf_map;
 
 /*
-* Common rules
+* Common Mappings
 */
 
 pub static COLOUR_CODE: phf::Map<&'static str, &'static str> = phf_map! {

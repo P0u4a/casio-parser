@@ -1,4 +1,5 @@
 use crate::mappings;
+use indoc::printdoc;
 
 #[derive(Debug, PartialEq)]
 pub struct TimepieceRecord {
@@ -17,6 +18,48 @@ pub struct GShockRecord {
     pub accent_colour: &'static str,
     pub order: &'static str,
     pub country: &'static str,
+}
+
+pub trait WatchRecordTrait {
+    fn pretty_print(&self);
+}
+
+impl WatchRecordTrait for TimepieceRecord {
+    fn pretty_print(&self) {
+        return printdoc! {"
+        Found the following Timepiece data:
+            Category: {category}
+            Band Material: {band}
+            Body Colour: {colour}
+            Dial Type: {dial}
+        ", 
+        category = self.category,
+        band = self.band,
+        colour = self.colour,
+        dial = self.dial};
+    }
+}
+
+impl WatchRecordTrait for GShockRecord {
+    fn pretty_print(&self) {
+        printdoc! {"
+        Found the following GShock data:
+            Category: {category}
+            Feature: {prefix}
+            Collection: {suffix}
+            Main Colour: {main_colour}
+            Accent Colour: {accent_colour}
+            Order: {order}
+            Manufacturer Origin: {country}
+        ", 
+        category = self.category,
+        prefix = self.prefix,
+        suffix = self.suffix,
+        main_colour = self.main_colour,
+        accent_colour = self.accent_colour,
+        order = self.order,
+        country = self.country};
+    }
 }
 
 pub fn parse_timepiece_record(codes: Vec<String>) -> Option<TimepieceRecord> {
@@ -50,10 +93,19 @@ pub enum WatchRecord {
     Timepiece(TimepieceRecord),
 }
 
+impl WatchRecordTrait for WatchRecord {
+    fn pretty_print(&self) {
+        match self {
+            WatchRecord::Gshock(record) => record.pretty_print(),
+            WatchRecord::Timepiece(record) => record.pretty_print(),
+        }
+    }
+}
+
 pub fn parse_record(record_type: &str, codes: Vec<String>) -> Option<WatchRecord> {
     match record_type {
-        "gshock" => Some(WatchRecord::Gshock(parse_gshock_record(codes)?)),
-        "timepiece" => Some(WatchRecord::Timepiece(parse_timepiece_record(codes)?)),
+        "gshock" => parse_gshock_record(codes).map(WatchRecord::Gshock),
+        "timepiece" => parse_timepiece_record(codes).map(WatchRecord::Timepiece),
         _ => return None,
     }
 }

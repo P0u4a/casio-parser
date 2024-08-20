@@ -7,7 +7,7 @@ fn test_tokensier_identifies_timepiece() {
     let timepiece_code = "FT-610WV-3BV";
     let (watch_type, _) = parser::tokensier::tokeniser(&timepiece_code);
 
-    const TIMEPIECE: &str = "Timepiece";
+    const TIMEPIECE: &str = "timepiece";
     assert_eq!(watch_type, TIMEPIECE);
 }
 
@@ -16,7 +16,7 @@ fn test_tokeniser_identifies_gshock() {
     let gshock_code = "GW-B5600BC-1BER";
     let (watch_type, _) = parser::tokensier::tokeniser(&gshock_code);
 
-    const GSHOCK: &str = "G-Shock";
+    const GSHOCK: &str = "gshock";
     assert_eq!(watch_type, GSHOCK);
 }
 
