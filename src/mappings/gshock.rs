@@ -52,6 +52,7 @@ pub static SERIES_SUFFIX_CODE: phf::Map<&'static str, &'static str> = phf_map! {
     "BBM" => "Black Blue Matte",
     "BK" => "Real Black",
     "BY" => "Burning Sun",
+    "BC" => "Baby-G",
     "C" => "Classic",
     "CS" => "Crazy Colors",
     "CR" => "Coral Reef",
