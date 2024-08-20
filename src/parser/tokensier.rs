@@ -1,37 +1,54 @@
-pub fn tokeniser(code: &str) -> (&'static str, Vec<String>) {
-    // Read until first hyphen
-    // Decide on category and save it in result
-    // If category is Gshock switch parsing rules
-    // For timepiece:
-    // Read until we hit the first alphabetic character
-    // Save the series code, then get the band code and save it which is the next character
-    // Ignore the next hyphen
-    // The numeric value right after hyphen is the Color code, and any string remaining is the Dial Code
+#[derive(Debug)]
+pub struct Tokens {
+    pub tokens: Vec<String>,
+    pub watch_type: &'static str,
+}
 
-    // For G-shock (a little more involved):
-    // First look up the Category string again to get the gshock type according to the correct rules
-    // Right after the hyphen, if the first letter is alphabetic, save the series prefix value otherwise null,
-    // Then the next set of numbers until the next alphabetic character make up the series number
-    // Strings up to the next hyphen are the Series Suffix
-    // Right after the hyphen, there will be a single number which corresponds to colour, after this number
-    // there will be either a letter or number (swapped around), which will be the order (letter) and accent colour (number)
-    // The remaining strings will be the country of make
+pub fn tokeniser(code: &str) -> Result<Tokens, &'static str> {
+    /*
+    *    Split the input into three sections delimited by hyphens
 
-    // Disclaimer: Older models may not conform to these rules.
+    *    Decide what the watch type and save this value as the tokenisation and mappings will be different
+    *    depending on if the watch is a G-Shock or a vintage timepiece
+    *
+    *    For Timepiece:
+    *    Get the category code which the first section element
+    *    Read until we hit the first alphabetic character
+    *    Save the series code, then get the band code and save it which is the next character
+    *    Ignore the next hyphen
+    *    The numeric value right after hyphen is the Colour code, and any string remaining is the Dial Code
+    *
+    *    For G-shock:
+    *    Get the category code which the first section element
+    *    Right after the hyphen, if the first letter is alphabetic, save the series prefix value otherwise None
+    *    Then the next set of numbers until the next alphabetic character make up the series number
+    *    The subsequent alphabetic characters up to the next hyphen are the Series Suffix
+    *    Right after the second hyphen, there will be a single number which corresponds to colour, after this number
+    *    there will be a letter which will be the order code
+    *    After the order code, there may or may not be another digit representing the accent colour
+    *    The remaining letters will be the country of the manufacturer
+    *
+    *    Disclaimer: Older models may not conform to these rules.
+    **/
 
     let sections: Vec<&str> = code.split('-').collect();
-    // TODO use Option Type
     if sections.len() != 3 {
-        return ("", vec![]);
+        return Err("Unexpected section length");
     }
 
     let watch_type = sections[0];
 
     if watch_type.contains("G") {
-        return ("gshock", tokenise_gshock(sections));
+        return Ok(Tokens {
+            tokens: tokenise_gshock(sections),
+            watch_type: &"gshock",
+        });
     }
 
-    return ("timepiece", tokenenise_timepiece(sections));
+    return Ok(Tokens {
+        tokens: tokenenise_timepiece(sections),
+        watch_type: "timepiece",
+    });
 }
 
 fn tokenenise_timepiece(sections: Vec<&str>) -> Vec<String> {
@@ -67,7 +84,6 @@ fn tokenenise_timepiece(sections: Vec<&str>) -> Vec<String> {
     ];
 }
 
-// TODO make return types Option<> when appropriate
 fn tokenise_gshock(sections: Vec<&str>) -> Vec<String> {
     let category_code = sections[0];
 

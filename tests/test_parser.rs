@@ -2,12 +2,14 @@ extern crate casio_parser;
 use casio_parser::parser::{
     self,
     parser::{GShockRecord, TimepieceRecord, WatchRecord},
+    tokensier::Tokens,
 };
 
 #[test]
 fn test_parser_parses_timepiece() {
     let timepiece_code = "AQ-230AD-8EV";
-    let (watch_type, tokens) = parser::tokensier::tokeniser(&timepiece_code);
+    let Tokens { tokens, watch_type } =
+        parser::tokensier::tokeniser(&timepiece_code).expect("Failed to tokenise");
 
     let model_info = parser::parser::parse_record(&watch_type, tokens);
 
@@ -29,7 +31,8 @@ fn test_parser_parses_timepiece() {
 #[test]
 fn test_parser_parses_gshock() {
     let gshock_code = "GA-100C-1A3ER";
-    let (watch_type, tokens) = parser::tokensier::tokeniser(&gshock_code);
+    let Tokens { tokens, watch_type } =
+        parser::tokensier::tokeniser(&gshock_code).expect("Failed to tokenise");
 
     let model_info = parser::parser::parse_record(&watch_type, tokens);
 
