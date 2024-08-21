@@ -1,7 +1,5 @@
-mod mappings;
-mod parser;
-use parser::parser::WatchRecord;
-use parser::parser::WatchRecordTrait;
+use casio_parser::parser::parser::{parse_record, WatchRecord, WatchRecordTrait};
+use casio_parser::parser::tokensier::tokeniser;
 use std::env;
 
 fn handle_model_info(model_info: Option<WatchRecord>) {
@@ -18,9 +16,9 @@ fn main() {
         panic!("Please pass a watch code like this: cargo run -- <watch-code>");
     }
 
-    match parser::tokensier::tokeniser(&args[1]) {
+    match tokeniser(&args[1]) {
         Ok(res) => {
-            let model_info = parser::parser::parse_record(res.watch_type, res.tokens);
+            let model_info = parse_record(res.watch_type, res.tokens);
             handle_model_info(model_info);
         }
 
